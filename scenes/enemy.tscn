@@ -1,0 +1,153 @@
+[gd_scene load_steps=21 format=3 uid="uid://b7ncdlj71h2o6"]
+
+[ext_resource type="Texture2D" uid="uid://pwa5k4a5mun6" path="res://art/Factions/Goblins/Troops/Torch/Yellow/Torch_Yellow.png" id="1_36bkm"]
+[ext_resource type="Script" path="res://script/enemy.gd" id="1_mt00b"]
+[ext_resource type="PackedScene" uid="uid://d0imnb7pkehb4" path="res://components/health_component.tscn" id="3_lxrac"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fuwhk"]
+atlas = ExtResource("1_36bkm")
+region = Rect2(0, 384, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_30t87"]
+atlas = ExtResource("1_36bkm")
+region = Rect2(192, 384, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rkrv8"]
+atlas = ExtResource("1_36bkm")
+region = Rect2(384, 384, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c6mcl"]
+atlas = ExtResource("1_36bkm")
+region = Rect2(576, 384, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t2otg"]
+atlas = ExtResource("1_36bkm")
+region = Rect2(768, 384, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iwj0s"]
+atlas = ExtResource("1_36bkm")
+region = Rect2(960, 384, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wmt7k"]
+atlas = ExtResource("1_36bkm")
+region = Rect2(0, 192, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_07576"]
+atlas = ExtResource("1_36bkm")
+region = Rect2(192, 192, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2fcqo"]
+atlas = ExtResource("1_36bkm")
+region = Rect2(384, 192, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nhwiv"]
+atlas = ExtResource("1_36bkm")
+region = Rect2(576, 192, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ga67q"]
+atlas = ExtResource("1_36bkm")
+region = Rect2(768, 192, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uutnc"]
+atlas = ExtResource("1_36bkm")
+region = Rect2(960, 192, 192, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vkk6x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fuwhk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_30t87")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rkrv8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c6mcl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t2otg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iwj0s")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wmt7k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_07576")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2fcqo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nhwiv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ga67q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uutnc")
+}],
+"loop": true,
+"name": &"run",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i04ji"]
+radius = 19.0
+height = 64.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n5rwh"]
+size = Vector2(25, 62)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cti7i"]
+bg_color = Color(0.916386, 0.340162, 0.759162, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fuid0"]
+bg_color = Color(1, 0.303765, 0.495849, 1)
+
+[node name="Enemy" type="CharacterBody2D"]
+script = ExtResource("1_mt00b")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_vkk6x")
+animation = &"attack"
+autoplay = "run"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_i04ji")
+
+[node name="AreaAttack" type="Area2D" parent="."]
+scale = Vector2(1, -1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaAttack"]
+position = Vector2(20.5, 0)
+shape = SubResource("RectangleShape2D_n5rwh")
+debug_color = Color(0.883413, 0.262783, 0.530975, 0.42)
+
+[node name="Components" type="Node" parent="."]
+
+[node name="HealthComponent" parent="Components" node_paths=PackedStringArray("progress_bar") instance=ExtResource("3_lxrac")]
+progress_bar = NodePath("../../ProgressBar")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -46.0
+offset_top = -96.0
+offset_right = 45.0
+offset_bottom = -86.0
+theme_override_styles/background = SubResource("StyleBoxFlat_cti7i")
+theme_override_styles/fill = SubResource("StyleBoxFlat_fuid0")
+value = 50.0
+show_percentage = false
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="body_entered" from="AreaAttack" to="." method="_on_area_attack_body_entered"]
+[connection signal="body_exited" from="AreaAttack" to="." method="_on_area_attack_body_exited"]
